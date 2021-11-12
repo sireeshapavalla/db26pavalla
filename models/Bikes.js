@@ -6,3 +6,4 @@ const BikesPriceSchema = mongoose.Schema({
 })
 module.exports = mongoose.model("Bikes",
     BikesPriceSchema)
+    

@@ -47,13 +47,13 @@ exports.Bikes_create_post = async function(req, res) {
         res.status(500); 
         res.send(`{"error": ${err}}`); 
     }   
-}; 
- 
- 
-// Handle Costume delete form on DELETE. 
+};
 exports.Bikes_delete = function(req, res) { 
     res.send('NOT IMPLEMENTED: Bikes delete DELETE ' + req.params.id); 
-}; 
+};
+ 
+// Handle Costume delete form on DELETE. 
+ 
  
 // Handle Costume update form on PUT. 
 exports.Bikes_update_put = function(req, res) { 

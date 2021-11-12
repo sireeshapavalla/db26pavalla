@@ -1,7 +1,8 @@
-# fwb26pavalla
+# db04prodduturi
 
-Heroku Server Link: https://pavallaassign10.herokuapp.com/
 
-Class Name: Bikes 
+Heroku Server Link : https://db04prodduturi.herokuapp.com/
 
-Attributes: bName, bWeight, bCost
+Class Name : Watches
+
+Attributes : wName,wSize,wCost

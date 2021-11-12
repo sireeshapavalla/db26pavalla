@@ -3,24 +3,19 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var BikesPriceSchema = require("./models/Bikes");
-
-const connectionString =
-  process.env.MONGO_CON
-mongoose = require('mongoose');
-mongoose.connect(connectionString,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
-
+const connectionString =  'mongodb+srv://SireeshaPavalla:siree@cluster0.pocxr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+mongoose = require('mongoose'); 
+mongoose.connect(connectionString,  
+{useNewUrlParser: true, 
+useUnifiedTopology: true}); 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var BikesRouter = require('./routes/Bikes');
+var WatchesRouter = require('./routes/Watches');
 var addmodsRouter = require('./routes/addmods');
-var selectorRouter = require('./routes/selector');
-var resourceRouter=require('./routes/resource');
+var selectorRouter = require('./routes/selector')
+var Watches = require("./models/Watches");
+var resourceRouter = require('./routes/resource') 
 
 var app = express();
 
@@ -33,49 +28,56 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-async function recreateDB() {
-  // Delete everything
-  await BikesPriceSchema.deleteMany();
-  let instance1 = new BikesPriceSchema({
-    type: "Heirloom Bikeses",
-    expdate: "11/04/2021",
-    cost: 3.28
-  });
-  instance1.save(function (err, doc) {
-    if (err) return console.error(err);
-    console.log("First object saved")
-  });
-  let instance2 = new BikesPriceSchema({
-    type: "Beefsteak Bikeses",
-    expdate: "11/04/2021",
-    cost: 4.44
-  });
-  instance2.save(function (err, doc) {
-    if (err) return console.error(err);
-    console.log("Second object saved")
-  });
-  let instance3 = new BikesPriceSchema({
-    type: "Plum Bikeses",
-    expdate: "11/04/2021",
-    cost: 4.71
-  });
-  instance3.save(function (err, doc) {
-    if (err) return console.error(err);
-    console.log("Third object saved")
-  });
-}
-let reseed = true;
-if (reseed) { recreateDB(); }
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/Bikes',BikesRouter);
-app.use('/addmods',addmodsRouter);
+app.use('/Watches', WatchesRouter);
+app.use('/addmods', addmodsRouter);
 app.use('/selector', selectorRouter);
-app.use('/resource',resourceRouter);
+app.use('/resource', resourceRouter);
+
+//Get the default connection 
+var db = mongoose.connection; 
+ 
+//Bind connection to error event  
+db.on('error', console.error.bind(console, 'MongoDB connection error:')); 
+db.once("open", function(){ 
+ console.log("Connection to DB succeeded")}); 
+
+ // We can seed the collection if needed on server start 
+async function recreateDB(){ 
+  // Delete everything 
+  await Watches.deleteMany(); 
+ 
+  let instance1 = new 
+Watches({WName:"Rolex",  WSize:'41mm', 
+WCost:9000}); 
+let instance2 = new 
+Watches({WName:"Fossil",  WSize:'30mm', 
+WCost:7500}); 
+let instance3 = new 
+Watches({WName:"Apple",  WSize:'41mm', 
+WCost:5000});
+  instance1.save( function(err,doc) { 
+      if(err) return console.error(err); 
+      console.log("First object saved") 
+  }); 
+  instance2.save( function(err,doc) { 
+    if(err) return console.error(err); 
+    console.log("First object saved") 
+}); 
+instance3.save( function(err,doc) { 
+  if(err) return console.error(err); 
+  console.log("First object saved") 
+}); 
+} 
+ 
+let reseed = true; 
+if (reseed) { recreateDB();} 
+ 
 
 // catch 404 and forward to error handler
-app.use(function(err, req, res, next) {
+app.use(function(req, res, next) {
   next(createError(404));
 });
 
@@ -91,9 +93,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-var db = mongoose.connection;
-//Bind connection to error event
-db.on('error', console.error.bind(console, 'MongoDB connectionerror: '));
-db.once("open", function () {
-  console.log("Connection to DB succeeded")
-});
