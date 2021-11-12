@@ -1,7 +1,8 @@
 const mongoose = require("mongoose")
-const BikesSchema = mongoose.Schema({
+const BikesPriceSchema = mongoose.Schema({
     bName: String,
-    bWeight: Number,
+    bWeight: String,
     bCost: Number
 })
-module.exports = mongoose.model("Bikes", BikesSchema)
+module.exports = mongoose.model("Bikes",
+    BikesPriceSchema)
