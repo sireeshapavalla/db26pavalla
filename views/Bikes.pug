@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  h1= title
+  p Bikes results
+  div(class="container-fluid")
+        div(class="row")
+            -
+                let details = [
+                    {
+                        "bName": "Kawasaki",
+                        "bWeight": "1000kg",
+                        "bCost": 15000
+                    },
+                    {
+                        "bName": "BMW",
+                        "bWeight": "1200kg",
+                        "bCost": 75000
+                    },
+                    {
+                        "bName": "Yamaha",
+                        "bWeight": "41mm",
+                        "bCost": 50000
+                    },                   
+                ]
+            each c,index in details
+                div(class="col-sm-2" onclick=`buy(${index})`) #{c.bName}
+                div(class="col-sm-2" onclick=`buy(${index})`) #{c.bWeight}
+                div(class="col-sm-2" onclick=`buy(${index})`) #{c.bCost}
+
+                script.                
+                      function buy(itemNo)
+                      {
+                            alert(`You purchased item ${itemNo+1}`)
+                      }
